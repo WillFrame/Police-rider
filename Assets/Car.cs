@@ -9,6 +9,7 @@ public class Car : MonoBehaviour
     public float MaxSpeed;
     public float RotateSpeed;
     protected float CurrentRotate = 0;
+    private bool isMoving = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,12 @@ public class Car : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            rb.MovePosition(transform.position + MaxSpeed * Time.fixedDeltaTime * Vector3.up);
+            isMoving = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            isMoving = false;
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -40,5 +46,10 @@ public class Car : MonoBehaviour
         }
 
         rb.MoveRotation(CurrentRotate);
+
+        if (isMoving)
+        {
+            rb.MovePosition(transform.position + MaxSpeed * Time.fixedDeltaTime * Vector3.up);
+        }
     }
 }
