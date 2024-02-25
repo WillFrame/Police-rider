@@ -1,4 +1,4 @@
-using System;
+// using System;
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +15,6 @@ public class Car : MonoBehaviour
     public float MaxSpeed;
     public float RotateSpeed;
     protected float CurrentRotate = 0;
-    private bool isMoving = false;
-    private RotateDirection? rotateDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -24,44 +22,34 @@ public class Car : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void MoveCurrentRotate()
+    void Rotate(bool isRightRotate, bool isLeftRotate)
     {
-        if (rotateDirection == RotateDirection.Left)
-            CurrentRotate += RotateSpeed;
-        if (rotateDirection == RotateDirection.Right)
-            CurrentRotate -= RotateSpeed;
+        if (isRightRotate && isLeftRotate)
+            return;
+
+        if (isRightRotate)
+            CurrentRotate += RotateSpeed * Time.deltaTime;
+        else
+            CurrentRotate -= RotateSpeed * Time.deltaTime;
+
+        rb.MoveRotation(CurrentRotate);
+    }
+
+    void Move()
+    {
+        transform.position += MaxSpeed * Time.deltaTime * transform.up;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-            isMoving = true;
+        if (Input.GetKey(KeyCode.W))
+            Move();
 
-        if (Input.GetKeyUp(KeyCode.W))
-            isMoving = false;
-
-        if (Input.GetKeyDown(KeyCode.A) && rotateDirection != RotateDirection.Left)
-            rotateDirection = RotateDirection.Left;
-
-        if (Input.GetKeyUp(KeyCode.A))
-            rotateDirection = null;
-
-        if (Input.GetKeyDown(KeyCode.D) && rotateDirection != RotateDirection.Right)
-            rotateDirection = RotateDirection.Right;
-
-        if (Input.GetKeyUp(KeyCode.D))
-            rotateDirection = null;
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+            Rotate(Input.GetKey(KeyCode.A), Input.GetKey(KeyCode.D));
 
         if (Input.GetKeyDown(KeyCode.L))
-            Debug.Log(transform.position);
-
-        if (rotateDirection != null)
-            MoveCurrentRotate();
-
-        if (isMoving)
-            rb.MovePosition(transform.position + MaxSpeed * Time.fixedDeltaTime * Vector3.up);
-
-        rb.MoveRotation(CurrentRotate);
+            Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
     }
 }
