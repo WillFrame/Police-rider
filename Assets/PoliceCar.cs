@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Car : MovingCar
+public class PoliceCar : MovingCar
 {
     void HandleRotate()
     {
@@ -22,8 +22,5 @@ public class Car : MovingCar
     {
         Move();
         HandleRotate();
-
-        if (Input.GetKeyDown(KeyCode.L))
-            Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
     }
 }
