@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Police rider.sln"
+    "dotnet.defaultSolution": "Police-rider.sln"
 }
