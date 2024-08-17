@@ -9,11 +9,18 @@ enum RotateDirection
     Right,
 }
 
-public class Car : MonoBehaviour
+enum CarState
+{
+    Exploded,
+    Alive,
+}
+
+class Car : MonoBehaviour
 {
     private Rigidbody2D rb;
     public float MaxSpeed;
     public float RotateSpeed;
+    public CarState State = CarState.Alive;
     protected float CurrentRotate = 0;
 
     // Start is called before the first frame update
@@ -38,6 +45,11 @@ public class Car : MonoBehaviour
     void Move()
     {
         transform.position += MaxSpeed * Time.deltaTime * transform.up;
+    }
+
+    void Explode()
+    {
+        State = CarState.Exploded;
     }
 
     // Update is called once per frame
