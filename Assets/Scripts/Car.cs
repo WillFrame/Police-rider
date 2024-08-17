@@ -47,7 +47,7 @@ class Car : MonoBehaviour
         transform.position += MaxSpeed * Time.deltaTime * transform.up;
     }
 
-    void Explode()
+    private void Explode()
     {
         State = CarState.Exploded;
     }
