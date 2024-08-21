@@ -9,18 +9,11 @@ enum RotateDirection
     Right,
 }
 
-enum CarState
-{
-    Exploded,
-    Alive,
-}
-
-class Car : MonoBehaviour
+public class Car : MonoBehaviour
 {
     private Rigidbody2D rb;
     public float MaxSpeed;
     public float RotateSpeed;
-    public CarState State = CarState.Alive;
     protected float CurrentRotate = 0;
 
     // Start is called before the first frame update
@@ -28,7 +21,6 @@ class Car : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
     void Rotate(bool isRightRotate, bool isLeftRotate)
     {
         if (isRightRotate && isLeftRotate)
@@ -46,10 +38,12 @@ class Car : MonoBehaviour
     {
         transform.position += MaxSpeed * Time.deltaTime * transform.up;
     }
-
-    private void Explode()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        State = CarState.Exploded;
+        if (collision.gameObject.tag == "house")
+        {
+            Debug.Log("hit_house");
+        }
     }
 
     // Update is called once per frame
