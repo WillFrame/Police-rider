@@ -8,7 +8,6 @@ enum RotateDirection
     Left,
     Right,
 }
-
 enum CarState
 {
     Exploded,
@@ -28,7 +27,6 @@ class Car : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
     void Rotate(bool isRightRotate, bool isLeftRotate)
     {
         if (isRightRotate && isLeftRotate)
@@ -47,9 +45,12 @@ class Car : MonoBehaviour
         transform.position += MaxSpeed * Time.deltaTime * transform.up;
     }
 
-    private void Explode()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        State = CarState.Exploded;
+        if (collision.gameObject.tag == "house")
+        {
+            Debug.Log("hit_house");
+        }
     }
 
     // Update is called once per frame
@@ -63,5 +64,9 @@ class Car : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
             Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
+    }
+    private void Explode()
+    {
+        State = CarState.Exploded;
     }
 }
