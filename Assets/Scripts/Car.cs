@@ -54,8 +54,8 @@ class Car : MonoBehaviour
         State = CarState.Exploded;
         MaxSpeed = 0;
         yield return new WaitForSeconds(2);
-        Destroy(gameObject);
         SceneManager.LoadScene(0);
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -70,12 +70,15 @@ class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (State == CarState.Alive)
+        {
+            Move();
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-            Rotate(Input.GetKey(KeyCode.A), Input.GetKey(KeyCode.D));
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                Rotate(Input.GetKey(KeyCode.A), Input.GetKey(KeyCode.D));
 
-        if (Input.GetKeyDown(KeyCode.L))
-            Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
+            if (Input.GetKeyDown(KeyCode.L))
+                Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
+        }
     }
 }
