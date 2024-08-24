@@ -52,6 +52,7 @@ class Car : MonoBehaviour
     private IEnumerator Explode()
     {
         State = CarState.Exploded;
+        MaxSpeed = 0;
         yield return new WaitForSeconds(2);
         Destroy(gameObject);
         SceneManager.LoadScene(0);
@@ -69,8 +70,7 @@ class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
-            Move();
+        Move();
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             Rotate(Input.GetKey(KeyCode.A), Input.GetKey(KeyCode.D));

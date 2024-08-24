@@ -606,7 +606,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 5
-  RotateSpeed: 60
+  RotateSpeed: 120
+  State: 1
 --- !u!61 &700664813
 BoxCollider2D:
   m_ObjectHideFlags: 0
