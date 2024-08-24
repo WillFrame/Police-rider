@@ -20,7 +20,6 @@ class ExplodableCar : MonoBehaviour
     protected Rigidbody2D rb;
     protected CarState State = CarState.Alive;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -48,6 +47,7 @@ class ExplodableCar : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // тут можем убрать параметры в функции?
     private void OnCollisionEnter2D(Collision2D collision)
     {
         StartCoroutine(Explode());
