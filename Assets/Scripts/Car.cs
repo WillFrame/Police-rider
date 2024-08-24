@@ -1,7 +1,10 @@
 // using System;
 // using System.Collections;
 // using System.Collections.Generic;
+using System.Collections;
+using System.Timers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 enum RotateDirection
 {
@@ -27,6 +30,7 @@ class Car : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     void Rotate(bool isRightRotate, bool isLeftRotate)
     {
         if (isRightRotate && isLeftRotate)
@@ -45,10 +49,19 @@ class Car : MonoBehaviour
         transform.position += MaxSpeed * Time.deltaTime * transform.up;
     }
 
+    private IEnumerator Explode()
+    {
+        State = CarState.Exploded;
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
+        SceneManager.LoadScene(0);
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "house")
+        if (collision.gameObject.CompareTag("house"))
         {
+            StartCoroutine(Explode());
             Debug.Log("hit_house");
         }
     }
@@ -64,9 +77,5 @@ class Car : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
             Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
-    }
-    private void Explode()
-    {
-        State = CarState.Exploded;
     }
 }
