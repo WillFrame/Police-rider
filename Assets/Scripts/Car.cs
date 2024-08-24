@@ -1,7 +1,10 @@
 // using System;
 // using System.Collections;
 // using System.Collections.Generic;
+using System.Collections;
+using System.Timers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 enum RotateDirection
 {
@@ -27,6 +30,7 @@ class Car : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     void Rotate(bool isRightRotate, bool isLeftRotate)
     {
         if (isRightRotate && isLeftRotate)
@@ -45,10 +49,20 @@ class Car : MonoBehaviour
         transform.position += MaxSpeed * Time.deltaTime * transform.up;
     }
 
+    private IEnumerator Explode()
+    {
+        State = CarState.Exploded;
+        MaxSpeed = 0;
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(0);
+        Destroy(gameObject);
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "house")
+        if (collision.gameObject.CompareTag("house"))
         {
+            StartCoroutine(Explode());
             Debug.Log("hit_house");
         }
     }
@@ -56,17 +70,15 @@ class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (State == CarState.Alive)
+        {
             Move();
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-            Rotate(Input.GetKey(KeyCode.A), Input.GetKey(KeyCode.D));
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                Rotate(Input.GetKey(KeyCode.A), Input.GetKey(KeyCode.D));
 
-        if (Input.GetKeyDown(KeyCode.L))
-            Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
-    }
-    private void Explode()
-    {
-        State = CarState.Exploded;
+            if (Input.GetKeyDown(KeyCode.L))
+                Debug.Log($"x: {rb.GetRelativeVector(Vector2.one)}, z: {transform.rotation.z}");
+        }
     }
 }
