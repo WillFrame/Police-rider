@@ -52,4 +52,19 @@ class ExplodableCar : MonoBehaviour
     {
         StartCoroutine(Explode());
     }
+    void OnTriggerEnter2D(Collider2D grass)
+    {
+        if (grass.CompareTag("grass")) 
+        {
+            rb.drag *= 1.2f;
+        }
+    }
+    void OnTriggerExit2D (Collider2D grass)
+    {
+        if (grass.CompareTag("grass")) 
+        {
+            rb.drag /= 1.2f;
+
+        }
+    }
 }
