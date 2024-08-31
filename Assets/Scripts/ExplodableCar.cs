@@ -37,7 +37,7 @@ class ExplodableCar : MonoBehaviour
 
     protected void Move()
     {
-        transform.position += Speed * Time.deltaTime * transform.up;
+        rb.AddForce(Speed * Time.deltaTime * transform.up);
     }
 
     protected virtual IEnumerator Explode()

@@ -1,6 +1,6 @@
 class PoliceCar : ExplodableCar
 {
-    void Update()
+    void FixedUpdate()
     {
         if (State == CarState.Alive)
             Move();
