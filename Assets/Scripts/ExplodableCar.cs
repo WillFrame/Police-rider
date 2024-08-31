@@ -33,9 +33,6 @@ class ExplodableCar : MonoBehaviour
     protected void Rotate(RotateDirection Direction)
     {
         if (Direction == RotateDirection.Left)
-        // {
-        //     rb.AddTorque(RotateSpeed);
-        // }
             CurrentRotate += RotateSpeed * Time.deltaTime;
         else
             CurrentRotate -= RotateSpeed * Time.deltaTime;
