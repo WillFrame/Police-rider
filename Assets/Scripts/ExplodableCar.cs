@@ -27,6 +27,7 @@ class ExplodableCar : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.centerOfMass = -transform.up * 0.8f;
     }
 
     protected void Rotate(RotateDirection Direction)
