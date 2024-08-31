@@ -12,6 +12,7 @@ enum CarState
     Alive,
 }
 
+
 class ExplodableCar : MonoBehaviour
 {
     public float Speed;
@@ -19,6 +20,9 @@ class ExplodableCar : MonoBehaviour
     protected float CurrentRotate = 0;
     protected Rigidbody2D rb;
     protected CarState State = CarState.Alive;
+
+    public float grassCoeff = 1.2f;
+    readonly string grassKey = "grass";
 
     void Start()
     {
@@ -37,7 +41,7 @@ class ExplodableCar : MonoBehaviour
 
     protected void Move()
     {
-        transform.position += Speed * Time.deltaTime * transform.up;
+        rb.AddForce(Speed * Time.deltaTime * transform.up);
     }
 
     protected virtual IEnumerator Explode()
@@ -52,18 +56,18 @@ class ExplodableCar : MonoBehaviour
     {
         StartCoroutine(Explode());
     }
-    void OnTriggerEnter2D(Collider2D grass)
+    void OnTriggerEnter2D(Collider2D car)
     {
-        if (grass.CompareTag("grass")) 
+        if (car.CompareTag(grassKey))
         {
-            rb.drag *= 1.2f;
+            rb.drag *= grassCoeff;
         }
     }
-    void OnTriggerExit2D (Collider2D grass)
+    void OnTriggerExit2D (Collider2D car)
     {
-        if (grass.CompareTag("grass")) 
+        if (car.CompareTag(grassKey))
         {
-            rb.drag /= 1.2f;
+            rb.drag /= grassCoeff;
 
         }
     }

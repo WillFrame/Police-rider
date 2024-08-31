@@ -12,7 +12,7 @@ class MainCar : ExplodableCar
         yield return null;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (State == CarState.Alive)
         {
@@ -24,6 +24,8 @@ class MainCar : ExplodableCar
                 Rotate(RotateDirection.Left);
             if (Input.GetKey(KeyCode.D))
                 Rotate(RotateDirection.Right);
+            if (Input.GetKey(KeyCode.L))
+                Debug.Log(rb.inertia);
         }
     }
 }
