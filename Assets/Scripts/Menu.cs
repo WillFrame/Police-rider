@@ -8,4 +8,12 @@ public class Menu : MonoBehaviour
         Debug.Log("Play");
         SceneManager.LoadScene(1);
     }
+    void Update()
+    {
+        // Проверяем, нажата ли клавиша пробел
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Play();
+        }
+    }
 }
